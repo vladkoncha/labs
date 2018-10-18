@@ -21,8 +21,8 @@ void sort(int *a, int l, int r)
 		}
 	} while (i<j);
 
-	if (l<j) sort(a, l, j);
-	if (i<r) sort(a, i, r);
+	if (l<=j) sort(a, l, j);
+	if (i<=r) sort(a, i, r);
 
 
 }
