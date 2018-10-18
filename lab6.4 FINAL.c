@@ -34,7 +34,6 @@ int main()
 	int *a;
 	scanf("%d", &N);
 	a = (int*)malloc(N * sizeof(int));
-	int r = N;
 	for (int i = 0; i<N; i++)
 		scanf("%d", &a[i]);
 
