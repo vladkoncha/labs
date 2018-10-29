@@ -46,9 +46,6 @@ int main()
     for (int i = 0; i < N; i++)
         scanf("%d", &a[i]);
     heap(a, N, N);
-    for (int i = 0; i < N; i++)
-        printf("%d ", a[i]);
-    printf("\n");
     sort(a, N);
     for (int i = N-1; i >= 0; i--)
         printf("%d ", a[i]);
