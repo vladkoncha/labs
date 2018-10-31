@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 void sort(int *a, int l, int r)
@@ -30,7 +31,6 @@ void sort(int *a, int l, int r)
 int main()
 {
 	int N = 0;
-	int l = 0;
 	int *a;
 	scanf("%d", &N);
 	a = (int*)malloc(N * sizeof(int));
