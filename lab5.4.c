@@ -22,7 +22,7 @@ void heap(int *a, int N )
         else if  ((a[i] > a[i * 2 + 2])  && (i * 2 + 2 < N))
         {
             swap(a, i, i * 2 + 2);
-            i++;
+          
         }
     }
 }
