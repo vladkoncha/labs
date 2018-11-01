@@ -11,7 +11,6 @@ void swap(int *a, int i, int j)
 
 void heap(int *a, int N )
 {
-    loopcont:
     for (int i = N / 2 - 1; i >= 0; i--)
     {
 
@@ -19,9 +18,8 @@ void heap(int *a, int N )
         {
             swap(a, i, i * 2 + 1);
             i++;
-            goto loopcont;
         }
-        if  ((a[i] > a[i * 2 + 2])  && (i * 2 + 2 < N))
+        else if  ((a[i] > a[i * 2 + 2])  && (i * 2 + 2 < N))
         {
             swap(a, i, i * 2 + 2);
             i++;
