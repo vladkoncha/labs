@@ -22,8 +22,8 @@ void sort(int *a, int l, int r)
 		}
 	} while (i<j);
 
-	if (l<=j) sort(a, l, j);
-	if (i<=r) sort(a, i, r);
+	if (l <= j) sort(a, l, j);
+	if (i <= r) sort(a, i, r);
 
 
 }
@@ -37,6 +37,7 @@ int main()
 	for (int i = 0; i<N; i++)
 		scanf("%d", &a[i]);
 
+	if (N != 0)
 	sort(a, 0, N - 1);
 
 	for (int i = 0; i<N; i++)
