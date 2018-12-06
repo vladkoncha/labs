@@ -57,7 +57,7 @@ void permutations(char *P)
 int main()
 {
 	char P[11] = { '\0' };
-	int Check[10] = { '\0' };
+	int Check[10] = { 0 };
 	int N;
 	gets(P);
 	scanf("%d", &N);
