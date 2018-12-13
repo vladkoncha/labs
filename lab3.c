@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int count_hash(char *pat, int begin, int end)
+int count_hash(unsigned char *pat, int begin, int end)
 {
 	int hash = 0;
 	int k = 1;
@@ -14,7 +14,7 @@ int count_hash(char *pat, int begin, int end)
 	return hash;
 }
 
-int next_hash(char *str, int last, int hash, int step)
+int next_hash(unsigned char *str, int last, int hash, int step)
 {
 	int k = 1;
 	for (int j = 0; j < step; j++)
