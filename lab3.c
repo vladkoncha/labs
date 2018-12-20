@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-int count_hash(unsigned char *pat, int begin, int end)
+int count_hash(unsigned char *pat, int end)
 {
     int hash = 0;
     int k = 1;
-    for (int i = begin; i < end; i++)
+    for (int i = 0; i < end; i++)
     {
         hash += (pat[i] % 3) * k;
         k *= 3;
@@ -13,49 +14,47 @@ int count_hash(unsigned char *pat, int begin, int end)
     return hash;
 }
 
-int next_hash(unsigned char *str, int last, int hash, int step)
+int step(int i)
 {
-    int k = 1;
-    for (int j = 0; j < step; j++)
-    {
-        k *= 3;
+    int st = 1;
+    while (i != 0){
+        st *= 3;
+        i--;
     }
-    int hash_str = (hash - (str[last - step - 1] % 3)) / 3 + str[last] % 3 * k;
-    return hash_str;
+    return st;
 }
 
 int main()
 {
-    unsigned char pattern[17] = { 0 };
-    unsigned char str[100] = { 0 };
-    fgets(pattern, 17, stdin);
-    fgets(str, 100, stdin);
-    long int patlen = (int)strlen(pattern) - 1;
+    unsigned char pattern[18] = { 0 };
+    unsigned char str[18] = { 0 };
+    unsigned char letter;
+    fgets(pattern, 18, stdin);
 
+    int patlen = (int)strlen(pattern) - 1;
+    fgets (str, patlen + 1, stdin);
 
+    int maxstep = step(patlen - 1);
 
-    int hash_pat = count_hash(pattern, 0, patlen);
+    int hash_pat = count_hash(pattern, patlen);
     printf("%d ", hash_pat);
+    int hash_str = count_hash(str, patlen);
 
-    int hash_str = 0;
-    for (int i = 0; i < (int)strlen(str) - patlen; i++)
+    for (int i = 0; feof(stdin) == 0; ++    i)
     {
-        if (hash_str == 0)
-            hash_str = count_hash(str, i, i + patlen);
-        else
-            hash_str = next_hash(str, i + patlen - 1, hash_str, patlen - 1);
         if (hash_str == hash_pat)
         {
-            unsigned int k = 0;
-            for (int j = i;  (k < strlen(pattern) - 1); j++)
+            for (int j = 0; j < patlen; j++)
             {
-                printf("%d ", j + 1);
-                if (pattern[k] != str[j])
+                printf("%d ", j + i + 1);
+                if (pattern[j] != str[(i + j) % patlen])
                     break;
-                k++;
             }
         }
+        letter = fgetc(stdin);
+        hash_str = (hash_str - (str[i % patlen] % 3))/3 + ((letter % 3) * maxstep);
+        str[i % patlen] = letter;
     }
-    
+
     return 0;
 }
