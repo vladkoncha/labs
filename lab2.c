@@ -11,7 +11,7 @@ void table(unsigned char find[20])
 	for (int i = 0; i <= 255; i++)
 		asc[i] = leng;
 
-	for (int i = 0; i<leng - 1; i++)
+	for (int i = 0; i < leng - 1; i++)
 	{
 		asc[find[i]] = leng - i - 1;
 	}
@@ -20,7 +20,7 @@ void search(unsigned char str[maxline], unsigned  char find[20])
 {
 	int lengstr = strlen(str);
 	int lengfind = strlen(find);
-	
+
 	int i = lengfind - 1;
 	int j = i;
 	int k = i;
@@ -29,7 +29,7 @@ void search(unsigned char str[maxline], unsigned  char find[20])
 		j = lengfind - 1;
 		k = i;
 		printf("%d ", k + 1);
-		while ((j>0) && (str[k]) == (find[j]))
+		while ((j > 0) && (str[k]) == (find[j]))
 		{
 			k--;
 			j--;
@@ -47,8 +47,10 @@ int main()
 	gets(find);
 
 	while (fgets(input, sizeof(input), stdin)) {
+		if ((strlen(str) + strlen(input)) > 999)
+			break;
 		strcat(str, input);
-		if (input[0] == '\n')
+		if (input[0] == '\n') 
 			break;
 	}
 
