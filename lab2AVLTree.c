@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// Óçåë äåðåâà
+// Ã“Ã§Ã¥Ã« Ã¤Ã¥Ã°Ã¥Ã¢Ã 
 struct Node
 {
 	int key;
@@ -24,7 +24,7 @@ void FreeTree(struct Node* root)
 	free(root);
 }
 
-//Âûñîòà óçëà
+//Ã‚Ã»Ã±Ã®Ã²Ã  Ã³Ã§Ã«Ã 
 int HeightNode(struct Node *N)
 {
 	if (N == NULL)
@@ -37,7 +37,7 @@ int MaxElement(int a, int b)
 	return (a > b) ? a : b;
 }
 
-//Ñîçäàåì íîâûé óçåë
+//Ã‘Ã®Ã§Ã¤Ã Ã¥Ã¬ Ã­Ã®Ã¢Ã»Ã© Ã³Ã§Ã¥Ã«
 struct Node* NewNode(int key)
 {
 	struct Node* node = (struct Node*)malloc(sizeof(struct Node));
@@ -48,7 +48,7 @@ struct Node* NewNode(int key)
 	return(node);
 }
 
-//Ïðàâûé ïîâîðîò äåðåâà âîêðóã ó
+//ÃÃ°Ã Ã¢Ã»Ã© Ã¯Ã®Ã¢Ã®Ã°Ã®Ã² Ã¤Ã¥Ã°Ã¥Ã¢Ã  Ã¢Ã®ÃªÃ°Ã³Ã£ Ã³
 struct Node *RightRotate(struct Node *y)
 {
 	struct Node *leftSubtree = y->left;
@@ -63,7 +63,7 @@ struct Node *RightRotate(struct Node *y)
 	return leftSubtree;
 }
 
-//Ëåâûé ïîâîðîò äåðåâà âîêðóã õ
+//Ã‹Ã¥Ã¢Ã»Ã© Ã¯Ã®Ã¢Ã®Ã°Ã®Ã² Ã¤Ã¥Ã°Ã¥Ã¢Ã  Ã¢Ã®ÃªÃ°Ã³Ã£ Ãµ
 struct Node *LeftRotate(struct Node *x)
 {
 	struct Node *y = x->right;
@@ -101,7 +101,7 @@ struct Node* Insert(struct Node *node, int key)
 
 	int balance = GetBalance(node);
 
-	// Åñëè óçëû íå ñáàëàíñèðîâàíû, òî áàëàíñèðóåì
+	// Ã…Ã±Ã«Ã¨ Ã³Ã§Ã«Ã» Ã­Ã¥ Ã±Ã¡Ã Ã«Ã Ã­Ã±Ã¨Ã°Ã®Ã¢Ã Ã­Ã», Ã²Ã® Ã¡Ã Ã«Ã Ã­Ã±Ã¨Ã°Ã³Ã¥Ã¬
 	if (balance > 1 && key < node->left->key)
 		return RightRotate(node);
 
