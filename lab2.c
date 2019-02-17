@@ -1,63 +1,151 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <string.h>
-#define maxline 1000
+#include<stdio.h>
+#include<stdlib.h>
 
-int asc[256]; //ascii
-
-void table(unsigned char find[20])
+// Узел дерева
+struct Node
 {
-	int leng = strlen(find);
-	for (int i = 0; i <= 255; i++)
-		asc[i] = leng;
+	int key;
+	struct Node *left;
+	struct Node *right;
+	int height;
+};
 
-	for (int i = 0; i < leng - 1; i++)
-	{
-		asc[find[i]] = leng - i - 1;
-	}
-}
-void search(unsigned char str[maxline], unsigned  char find[20])
+void FreeTree(struct Node* root)
 {
-	int lengstr = strlen(str);
-	int lengfind = strlen(find);
-
-	int i = lengfind - 1;
-	int j = i;
-	int k = i;
-	while (i <= lengstr - 1)
+	if (root != NULL)
 	{
-		j = lengfind - 1;
-		k = i;
-		printf("%d ", k + 1);
-		while ((j > 0) && (str[k]) == (find[j]))
-		{
-			k--;
-			j--;
-			printf("%d ", k + 1);
+		if (root->left != NULL) {
+			FreeTree(root->left);
 		}
-		i += asc[str[i]];
+		if (root->right != NULL) {
+			FreeTree(root->right);
+		}
 	}
+	free(root);
+}
+
+//Высота узла
+int HeightNode(struct Node *N)
+{
+	if (N == NULL)
+		return 0;
+	return N->height;
+}
+
+int MaxElement(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
+//Создаем новый узел
+struct Node* NewNode(int key)
+{
+	struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+	node->key = key;
+	node->left = NULL;
+	node->right = NULL;
+	node->height = 1;
+	return(node);
+}
+
+//Правый поворот дерева вокруг у
+struct Node *RightRotate(struct Node *y)
+{
+	struct Node *leftSubtree = y->left;
+	struct Node *rightSubtreeOfLeftSubtree = leftSubtree->right;
+
+	leftSubtree->right = y;
+	y->left = rightSubtreeOfLeftSubtree;
+
+	y->height = 1 + MaxElement(HeightNode(y->left), HeightNode(y->right));
+	leftSubtree->height = 1 + MaxElement(HeightNode(leftSubtree->left), HeightNode(leftSubtree->right));
+
+	return leftSubtree;
+}
+
+//Левый поворот дерева вокруг х
+struct Node *LeftRotate(struct Node *x)
+{
+	struct Node *y = x->right;
+	struct Node *leftSubtreeOfRightSubtree = y->left;
+
+	y->left = x;
+	x->right = leftSubtreeOfRightSubtree;
+
+	x->height = MaxElement(HeightNode(x->left), HeightNode(x->right)) + 1;
+	y->height = MaxElement(HeightNode(y->left), HeightNode(y->right)) + 1;
+
+	return y;
+}
+
+int GetBalance(struct Node *N)
+{
+	if (N == NULL)
+		return 0;
+	return HeightNode(N->left) - HeightNode(N->right);
+}
+
+struct Node* Insert(struct Node *node, int key)
+{
+	if (node == NULL)
+		return(NewNode(key));
+
+	if (key < node->key)
+		node->left = Insert(node->left, key);
+	else if (key > node->key)
+		node->right = Insert(node->right, key);
+	else
+		return node;
+
+	node->height = 1 + MaxElement(HeightNode(node->left), HeightNode(node->right));
+
+	int balance = GetBalance(node);
+
+	// Если узлы не сбалансированы, то балансируем
+	if (balance > 1 && key < node->left->key)
+		return RightRotate(node);
+
+	if (balance < -1 && key > node->right->key)
+		return LeftRotate(node);
+
+	if (balance > 1 && key > node->left->key)
+	{
+		node->left = LeftRotate(node->left);
+		return RightRotate(node);
+	}
+
+	if (balance < -1 && key < node->right->key)
+	{
+		node->right = RightRotate(node->right);
+		return LeftRotate(node);
+	}
+
+	return node;
+}
+
+void TreeHeight(struct Node *root)
+{
+	if (root != NULL)
+		printf("%d\n", root->height);
+	else
+		printf("0");
 }
 
 int main()
 {
-	unsigned char str[maxline] = { 0 };
-	unsigned char find[20];
-	char input[128];
-	gets(find);
+	struct Node *root = NULL;
+	long long int N = 0;
+	scanf_s("%lld", &N);
+	int key = 0;
 
-	while (fgets(input, sizeof(input), stdin)) {
-		if ((strlen(str) + strlen(input)) > 999)
-			break;
-		strcat(str, input);
-		if (input[0] == '\n') 
-			break;
+	for (int i = 0; i < N; i++)
+	{
+		key = 0;
+		scanf_s("%d", &key);
+		root = Insert(root, key);
 	}
+	TreeHeight(root);
+	FreeTree(root);
 
-	if (str[0] && str[strlen(str) - 1] == '\n') // if string is not empty and final char is \n
-		str[strlen(str) - 1] = 0; // erase final \n
-	table(find);
-	search(str, find);
 	return 0;
-
 }
