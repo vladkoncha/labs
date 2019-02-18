@@ -19,8 +19,9 @@ void FreeTree (struct Node* root)
         if (root->right != NULL) {
             FreeTree(root->right);
         }
+free(root);
     }
-    free(root);
+    
 }
 
 int HeightNode(struct Node *N)
