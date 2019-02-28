@@ -11,11 +11,8 @@ struct vector {
 	int size;
 
 	int(*begin)(vector);
-
 	int(*end)(vector);
-
 	void(*push_back)(vector *, int);
-
 	void(*remov)(vector *);
 };
 
@@ -29,8 +26,7 @@ void push_back(vector *vector, int value)
 	vector->array[vector->size++] = value;
 }
 
-int begin(vector vector)
-{
+int begin(vector vector){
 	return vector.array[0];
 }
 
@@ -44,9 +40,7 @@ int end(vector vector)
 void remov(vector *vector)
 {
 	if (vector->size > 0)
-	{
 		vector->array[--vector->size] = 0;
-	}
 }
 
 vector NewVector()
@@ -67,9 +61,7 @@ void Sort(vector* graph, vector* checked, vector* topSorted, int currentVertex)
 			exit(0);
 		}
 		if (!checked->array[adjVertex])
-		{
 			Sort(graph, checked, topSorted, adjVertex);
-		}
 	}
 
 	topSorted->push_back(topSorted, currentVertex + 1);
@@ -105,9 +97,7 @@ int main()
 	vector *graph;
 	graph = malloc(sizeof(vector) * N);
 	for (int i = 0; i < N; ++i)
-	{
 		graph[i] = NewVector();
-	}
 
 	int edgeStart = 0;
 	int edgeEnd = 0;
@@ -141,22 +131,14 @@ int main()
 	topSorted = NewVector();
 
 	for (int i = 0; i < N; ++i)
-	{
 		if (!checked.array[i])
-		{
 			Sort(graph, &checked, &topSorted, i);
-		}
-	}
 
 	for (int i = N - 1; i >= 0; i--)
-	{
 		printf_s("%d ", topSorted.array[i]);
-	}
 
 	for (int i = 0; i < N; ++i)
-	{
 		free(graph[i].array);
-	}
 
 	free(graph);
 	free(checked.array);
