@@ -25,7 +25,7 @@ struct graph *FindMin(struct graph *closestVertex, struct graph *graph, const in
         }
     }
     if (closestVertex != NULL)
-        closestVertex->out = 1;
+        closestVertex->out = NA_VIHOD;
     return closestVertex;
 }
 
