@@ -67,6 +67,7 @@ int main() {
         graph[i].start = --edgeStart;
         graph[i].end = --edgeEnd;
         graph[i].weight = edgeWeight;
+        graph[i].out = 0;
     }
     qsort(graph, (size_t)M, sizeof(struct graph), cmp);
 
