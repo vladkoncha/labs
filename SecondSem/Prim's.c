@@ -86,7 +86,7 @@ int main() {
 		exit(0);
 	}
 
-	struct graph *graph;
+	struct graph *graph = NULL;
 	graph = (struct graph*)malloc(M * sizeof(struct graph));
 
 	for (int i = 0; i < M; i++) {
