@@ -105,7 +105,7 @@ int main() {
 			free(graph);
 			exit(0);
 		}
-		if ((graph[i].weight > INT_MAX) || (graph[i].weight < 0)) {
+		if (graph[i].weight > INT_MAX) {
 			fprintf(out, "bad length");
 			fclose(in);
 			fclose(out);
