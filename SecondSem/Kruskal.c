@@ -63,7 +63,7 @@ int main() {
 			free(graph);
 			exit(0);
 		}
-		if ((edgeWeight > INT_MAX) || (edgeWeight < 0)) {
+		if (edgeWeight > INT_MAX){
 			printf("bad length");
 			free(graph);
 			exit(0);
