@@ -8,7 +8,7 @@ typedef struct vector vector;
 
 struct array {
 	int vertex;
-	unsigned int weight;
+	long long weight;
 };
 
 struct vector {
@@ -20,12 +20,12 @@ struct vector {
 
 	int(*end)(vector);
 
-	void(*pushBack)(vector *, int, unsigned int);
+	void(*pushBack)(vector *, int, long long);
 
 	void(*remov)(vector *);
 };
 
-void pushBack(vector *vector, int value, unsigned int edgeWeight) {
+void pushBack(vector *vector, int value, long long edgeWeight) {
 	if (vector->size >= vector->mem) {
 		vector->array =
 			realloc(vector->array, sizeof(struct array) * vector->size * 2);
@@ -71,7 +71,7 @@ void Dijkstra(vector *graph, vector *marker, int N, int S, int F) {
 	}
 	marker->array[S].vertex = CHECKED;
 	int checked = 0;
-	unsigned int *vertexWeight = NULL;
+	long long *vertexWeight = NULL;
 	for (int currentVertex = 0; currentVertex < N; currentVertex++) {
 		if (currentVertex == S)
 			continue;
@@ -86,7 +86,7 @@ void Dijkstra(vector *graph, vector *marker, int N, int S, int F) {
 					|| (marker->array[currentVertex].weight > INT_MAX))
 					overflowCounter++;
 			}
-			if ((!checked) && (graph[currentVertex].array[adjVertex].weight < *vertexWeight)) {
+			if ((!checked) && (graph[currentVertex].array[adjVertex].weight + marker->array[currentVertex].weight < *vertexWeight)) {
 				*vertexWeight = graph[currentVertex].array[adjVertex].weight + marker->array[currentVertex].weight;
 			}
 		}
@@ -147,11 +147,11 @@ int main() {
 
 	int edgeStart = 0;
 	int edgeEnd = 0;
-	unsigned int edgeWeight = 0;
+	long long edgeWeight = 0;
 	for (int i = 0; i < M; i++) {
 		edgeStart = edgeEnd = 0;
 		edgeWeight = 0;
-		scanf("%d %d %d", &edgeStart, &edgeEnd, &edgeWeight);
+		scanf("%d %d %lld", &edgeStart, &edgeEnd, &edgeWeight);
 		if ((edgeEnd == 0) || (edgeStart == 0) || (edgeWeight == 0)) {
 			printf("bad number of lines");
 			FreeGraph(graph, N);
@@ -186,7 +186,7 @@ int main() {
 		else if (marker.array[i].weight > INT_MAX)
 			printf("INT_MAX+ ");
 		else
-			printf("%d ", marker.array[i].weight);
+			printf("%lld ", marker.array[i].weight);
 
 	printf("\n");
 
