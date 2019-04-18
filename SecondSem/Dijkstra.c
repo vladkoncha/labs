@@ -5,8 +5,58 @@
 
 typedef short bool;
 
+void Dijkstra(int **graph, long long *marker, bool *check, int N) {
+  long long minWeight = 0;
+  long long minVertex = 0;
+  do {
+    minVertex = LLONG_MAX;
+    minWeight = LLONG_MAX;
+    for (int i = 0; i < N; i++) {
+      if (!check[i] && (marker[i] < minWeight)) {
+        minWeight = marker[i];
+        minVertex = i;
+      }
+    }
+
+    if (minVertex != LLONG_MAX) {
+      for (int i = 0; i < N; i++) {
+        if (graph[minVertex][i] > 0) {
+          if ((minWeight + graph[minVertex][i]) < marker[i]) {
+            marker[i] = minWeight + graph[minVertex][i];
+          }
+        }
+      }
+      check[minVertex] = 1;
+    }
+  } while (minVertex < LLONG_MAX);
+}
+
+bool VertPrint(long long *marker, int N, int F) {
+  int overflowCounter = 0;
+  for (int i = 0; i < N; i++) {
+    if (marker[i] != LLONG_MAX) {
+      if (marker[i] >= INT_MAX) {
+        overflowCounter++;
+      }
+      if (marker[i] > INT_MAX) {
+        printf("INT_MAX+ ");
+      } else printf("%lld ", marker[i]);
+    } else printf("oo ");
+  }
+  printf("\n");
+  long long weight = marker[F - 1];
+  if (weight == LLONG_MAX) {
+    printf("no path");
+    return 0;
+  } else if (weight > INT_MAX && overflowCounter > 2) {
+    printf("overflow");
+    return 0;
+  }
+  return 1;
+}
+
 void Way(int **graph, const long long *marker, int F, long long weight, int N) {
-  printf( "%d ", F + 1);
+  printf("%d ", F + 1);
   while (weight > 0) {
     for (int i = 0; i < N; i++) {
       if (graph[F][i] != 0) {
@@ -60,7 +110,7 @@ int main() {
     exit(0);
   }
 
-  int **graph = (int **)malloc(N * sizeof(int *));
+  int **graph = (int **) calloc(N, sizeof(int *));
   for (int i = 0; i < N; i++) {
     graph[i] = calloc(N, sizeof(int));
   }
@@ -96,55 +146,14 @@ int main() {
 
   for (int i = 0; i < N; i++) {
     marker[i] = LLONG_MAX;
-    check[i] = 1;
+    check[i] = 0;
   }
   marker[S - 1] = 0;
 
-  long long minWeight = 0;
-  long long minVertex = 0;
+  Dijkstra(graph, marker, check, N);
 
-  do {
-    minVertex = LLONG_MAX;
-    minWeight = LLONG_MAX;
-    for (int i = 0; i < N; i++) {
-      if (check[i] && marker[i] < minWeight) {
-        minWeight = marker[i];
-        minVertex = i;
-      }
-    }
-
-    if (minVertex != LLONG_MAX) {
-      for (int i = 0; i < N; i++) {
-        if (graph[minVertex][i] > 0) {
-          if ((minWeight + graph[minVertex][i]) < marker[i]) {
-            marker[i] = minWeight + graph[minVertex][i];
-          }
-        }
-      }
-      check[minVertex] = 0;
-    }
-  } while (minVertex < LLONG_MAX);
-
-  int overflowCounter = 0;
-  for (int i = 0; i < N; i++) {
-    if (marker[i] != LLONG_MAX) {
-      if (marker[i] >= INT_MAX) {
-        overflowCounter++;
-      }
-      if (marker[i] > INT_MAX) {
-        printf("INT_MAX+ ");
-      } else printf("%lld ", marker[i]);
-    } else printf("oo ");
-  }
-  printf("\n");
-
-  long long weight = marker[F - 1];
-  if (weight == LLONG_MAX) {
-    printf("no path");
-  } else if (weight > INT_MAX && overflowCounter > 2) {
-    printf("overflow");
-  } else
-    Way(graph, marker, F - 1, weight, N);
+  if (VertPrint(marker, N, F))
+    Way(graph, marker, F - 1, marker[F - 1], N);
 
   FreeGraph(graph, N);
   free(marker);
