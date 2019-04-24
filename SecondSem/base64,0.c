@@ -6,21 +6,30 @@ int main() {
   FILE *out = fopen("out.txt", "w");
   char alphabet[] =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  unsigned char a[] = "123456";
+  unsigned char a[3] = { 0 };
   unsigned char x[4] = { 0 };
+  int counter = 0;
 
-  for (unsigned int j = 0; j < 6; j += 3) { //add odd number
-
-    x[0] = a[j + 0] & 252u;
+  while (!feof(in)){ //add odd number
+    counter = 1;
+    a[0] = fgetc(in);
+    x[0] = a[0] & 252u;
     x[0] >>= 2u;
 
-    x[1] = ((a[j + 0] & 3u) << 4u) | (a[j + 1] >> 4u);
+    if (!feof(in)) {
+      counter++;
+      a[1] = fgetc(in);
+      x[1] = ((a[0] & 3u) << 4u) | (a[1] >> 4u);
 
-    x[2] = ((a[j + 1] & 15u) << 2u) | (a[j + 2] >> 6u);
+      if (!feof(in)) {
+        counter += 2;
+        a[2] = fgetc(in);
+        x[2] = ((a[1] & 15u) << 2u) | (a[2] >> 6u);
+        x[3] = a[2] & 63u;
+      }
+    }
 
-    x[3] = a[j + 2] & 63u;
-
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < counter; i++) {
       fprintf(out, "%c", alphabet[x[i]]);
       x[i] = 0;
     }
