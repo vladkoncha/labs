@@ -20,16 +20,16 @@ int main() {
 
     if ((c = fgetc(in)) == EOF) {
       a[1] = 0;
-      lastChar = 2;
+      lastChar = 1;
     } else
       a[1] = c;
     counter++;
     x[1] = ((a[0] & 3u) << 4u) | (a[1] >> 4u);
 
-    if (lastChar != 2) {
+    if (lastChar != 1) {
       if ((c = fgetc(in)) == EOF) {
         a[2] = 0;
-        lastChar = 1;
+        lastChar = 2;
       } else
         a[2] = c;
       counter += 2;
@@ -37,16 +37,16 @@ int main() {
       x[3] = a[2] & 63u;
     }
 
-    if (lastChar == 1)
+    if (lastChar == 2)
       counter--;
     for (int i = 0; i < counter; i++) {
       fprintf(out, "%c", alphabet[x[i]]);
       x[i] = 0;
     }
   }
-
-  for (int i = 0; i < lastChar; i++)
-    fprintf(out, "=");
+  if (lastChar != 0)
+    for (int i = 0; i < (3 - lastChar); i++)
+      fprintf(out, "=");
 
   fclose(in);
   fclose(out);
